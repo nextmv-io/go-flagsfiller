@@ -3,17 +3,17 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/itzg/go-flagsfiller"
+	"github.com/nextmv-io/go-flagsfiller"
 	"log"
 	"time"
 )
 
 type Config struct {
-	Host         string        `default:"localhost" usage:"The remote host"`
-	DebugEnabled bool          `default:"true" usage:"Show debugs"`
-	MaxTimeout   time.Duration `default:"5s" usage:"How long to wait"`
-	IgnoreCertificate bool     `default:"false" usage:"Make it automatic" aliase:"k"`
-	Feature      struct {
+	Host              string        `default:"localhost" usage:"The remote host"`
+	DebugEnabled      bool          `default:"true" usage:"Show debugs"`
+	MaxTimeout        time.Duration `default:"5s" usage:"How long to wait"`
+	IgnoreCertificate bool          `default:"false" usage:"Make it automatic" aliase:"k"`
+	Feature           struct {
 		Faster         bool `usage:"Go faster"`
 		LudicrousSpeed bool `usage:"Go even faster"`
 	}

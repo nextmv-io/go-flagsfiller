@@ -198,54 +198,57 @@ func (f *FlagSetFiller) processField(flagSet *flag.FlagSet, fieldRef interface{}
 	}
 	// go through all supported structs
 	if isSupportedStruct(fieldRef) {
-		handler := extendedTypes[getTypeName(t)]
+		name := getTypeName(t)
+		handler := extendedTypes[name]
 		err = handler(tag, fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	}
-
-	switch {
-	case t.Kind() == reflect.String:
-		f.processString(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Bool:
-		err = f.processBool(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Float64:
-		err = f.processFloat64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	// NOTE check time.Duration before int64 since it is aliasesed from int64
-	case t == durationType, fieldType == "duration":
-		err = f.processDuration(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Int64:
-		err = f.processInt64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Int:
-		err = f.processInt(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Uint64:
-		err = f.processUint64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t.Kind() == reflect.Uint:
-		err = f.processUint(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
-
-	case t == stringSliceType, fieldType == "stringSlice":
-		var override bool
-		if overrideValue, exists := tag.Lookup("override-value"); exists {
-			if value, err := strconv.ParseBool(overrideValue); err == nil {
-				override = value
-			}
+		if err != nil {
+			return fmt.Errorf("failed to process %s: %w", name, err)
 		}
-		f.processStringSlice(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, override, aliases)
+	} else {
+		switch {
+		case t.Kind() == reflect.String:
+			f.processString(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
 
-	case t == stringToStringMapType, fieldType == "stringMap":
-		f.processStringToStringMap(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+		case t.Kind() == reflect.Bool:
+			err = f.processBool(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
 
-		// ignore any other types
-	}
+		case t.Kind() == reflect.Float64:
+			err = f.processFloat64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
 
-	if err != nil {
-		return err
+		// NOTE check time.Duration before int64 since it is aliasesed from int64
+		case t == durationType, fieldType == "duration":
+			err = f.processDuration(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+		case t.Kind() == reflect.Int64:
+			err = f.processInt64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+		case t.Kind() == reflect.Int:
+			err = f.processInt(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+		case t.Kind() == reflect.Uint64:
+			err = f.processUint64(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+		case t.Kind() == reflect.Uint:
+			err = f.processUint(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+		case t == stringSliceType, fieldType == "stringSlice":
+			var override bool
+			if overrideValue, exists := tag.Lookup("override-value"); exists {
+				if value, err := strconv.ParseBool(overrideValue); err == nil {
+					override = value
+				}
+			}
+			f.processStringSlice(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, override, aliases)
+
+		case t == stringToStringMapType, fieldType == "stringMap":
+			f.processStringToStringMap(fieldRef, hasDefaultTag, tagDefault, flagSet, renamed, usage, aliases)
+
+			// ignore any other types
+		}
+
+		if err != nil {
+			return err
+		}
 	}
 
 	if !f.options.noSetFromEnv && envName != "" {

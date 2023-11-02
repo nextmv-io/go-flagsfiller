@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/itzg/go-flagsfiller"
+	"github.com/nextmv-io/go-flagsfiller"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

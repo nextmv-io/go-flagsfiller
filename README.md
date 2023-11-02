@@ -1,20 +1,20 @@
 # go-flagsfiller
 
-[![](https://godoc.org/github.com/itzg/go-flagsfiller?status.svg)](https://godoc.org/github.com/itzg/go-flagsfiller)
-[![](https://img.shields.io/badge/go.dev-module-007D9C)](https://pkg.go.dev/github.com/itzg/go-flagsfiller)
+[![](https://godoc.org/github.com/nextmv-io/go-flagsfiller?status.svg)](https://godoc.org/github.com/nextmv-io/go-flagsfiller)
+[![](https://img.shields.io/badge/go.dev-module-007D9C)](https://pkg.go.dev/github.com/nextmv-io/go-flagsfiller)
 
 Bring your own struct and make Go's flag package pleasant to use.
 
 ## Install
 
 ```
-go get github.com/itzg/go-flagsfiller
+go get github.com/nextmv-io/go-flagsfiller
 ```
 
 ## Import
 
 ```go
-import "github.com/itzg/go-flagsfiller"
+import "github.com/nextmv-io/go-flagsfiller"
 ```
 
 ## Features
@@ -46,7 +46,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/itzg/go-flagsfiller"
+	"github.com/nextmv-io/go-flagsfiller"
 	"log"
 	"time"
 )
@@ -191,4 +191,4 @@ func (c *loadFromGitCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...i
 ```
 ## More information
 
-[Refer to the GoDocs](https://godoc.org/github.com/itzg/go-flagsfiller) for more information about this module.
+[Refer to the GoDocs](https://godoc.org/github.com/nextmv-io/go-flagsfiller) for more information about this module.

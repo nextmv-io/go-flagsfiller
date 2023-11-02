@@ -3,7 +3,7 @@ package flagsfiller_test
 import (
 	"flag"
 	"fmt"
-	"github.com/itzg/go-flagsfiller"
+	"github.com/nextmv-io/go-flagsfiller"
 	"log"
 	"time"
 )
@@ -13,7 +13,7 @@ func Example() {
 		Host      string        `default:"localhost" usage:"The remote host"`
 		Enabled   bool          `default:"true" usage:"Turn it on"`
 		Automatic bool          `default:"false" usage:"Make it automatic" aliases:"a"`
-		Retries   int          	`default:"1" usage:"Retry" aliases:"r,t"`
+		Retries   int           `default:"1" usage:"Retry" aliases:"r,t"`
 		Timeout   time.Duration `default:"5s" usage:"How long to wait"`
 	}
 
